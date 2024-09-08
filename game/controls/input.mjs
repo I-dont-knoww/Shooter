@@ -44,8 +44,8 @@ export default class Input {
         window.addEventListener('keydown', event => input.keyboard.keydown(event.code));
         window.addEventListener('keyup', event => input.keyboard.keyup(event.code));
 
-        window.addEventListener('mousedown', event => input.mouse.mousedown(event.screenX, event.screenY, event.button));
-        window.addEventListener('mousemove', event => input.mouse.mousemove(event.screenX, event.screenY));
-        window.addEventListener('mouseup', event => input.mouse.mouseup(event.screenX, event.screenY, event.button));
+        window.addEventListener('mousedown', event => input.mouse.mousedown(event.clientX, event.clientY, event.button));
+        window.addEventListener('mousemove', event => input.mouse.mousemove(event.clientX, event.clientY));
+        window.addEventListener('mouseup', event => input.mouse.mouseup(event.clientX, event.clientY, event.button));
     }
 }

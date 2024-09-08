@@ -19,6 +19,9 @@ import OffscreenCanvasManager from './renderer/offscreencanvasmanager.mjs';
 import headers from '../headers.mjs';
 import { sleepWorker } from '../utils/timer.mjs';
 
+import { playerMaxHealth, playerMaxXY, playerMinXY, playerSize } from '../game/playerobject.mjs';
+import { bulletSize } from '../game/bulletobject.mjs';
+
 Lobby.initiate();
 
 const isHost = await Lobby.askUserForHost();
@@ -42,12 +45,18 @@ const inputsManager = new InputsManager(game);
 
 function draw() {
     layerenderer.clear();
+
+    layerenderer.renderPath(0, Renderer.renderType.STROKE, Path.RECT(new Vec2(playerMinXY, playerMinXY), new Vec2(playerMaxXY, playerMaxXY)), {
+        strokeStyle: 'black',
+        lineWidth: 3
+    });
     for (let i = 0; i < game.objects.length; i++) {
         const object = game.objects[i];
 
-        layerenderer.renderPath(Renderer.renderType.FILL, 0, Path.CIRCLE(object.pos, 10), {
-            fillStyle: 'black'
+        if (object.socketKey) layerenderer.renderPath(0, Renderer.renderType.FILL, Path.CIRCLE(object.pos, playerSize), {
+            fillStyle: `rgba(0, 0, 0, ${object.health/playerMaxHealth})`
         });
+        else layerenderer.renderPath(0, Renderer.renderType.FILL, Path.CIRCLE(object.pos, bulletSize), { fillStyle: 'black' });
     }
 
     requestAnimationFrame(draw);

@@ -27,7 +27,8 @@ export default class Game extends EventEmitter {
         this.players = players;
         this.playerCount = Object.keys(players).length;
 
-        this.objects = Object.values(players);
+        this.objects = [];
+        for (let object of Object.values(this.players)) this.addObject(object);
 
         this.step = 0;
 
@@ -57,6 +58,13 @@ export default class Game extends EventEmitter {
     deleteNecessaryObjects() {
         for (let i = this.objects.length - 1; i >= 0; i--) if (this.objects[i].remove)
             this.deleteObjectIndex(i);
+    }
+
+    /**
+     * @param {*} object
+     */
+    addObject(object) {
+        this.objects.push(object);
     }
 
     /**
